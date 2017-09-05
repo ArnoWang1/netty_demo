@@ -19,6 +19,7 @@ public class ReadFile {
             //出现异常回调
             readCallback.onError(e);
         }
+
     }
 
 }
