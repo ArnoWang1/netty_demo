@@ -32,7 +32,7 @@ public class PlainNioServer {
         final ByteBuffer msg = ByteBuffer.wrap("Hi!\r\n".getBytes());
         while (true) {
             try {
-                //阻塞代码只到触发了事件
+                //阻塞代码直到触发了事件
                 selector.select();
             } catch (IOException ex) {
                 ex.printStackTrace();
