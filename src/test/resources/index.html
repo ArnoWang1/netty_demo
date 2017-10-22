@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>聊天室</title>
+</head>
+<body style="display: flex; justify-content: center; align-items: center">
+<script type="text/javascript">
+    var socket;
+    if (window.WebSocket) {
+        socket = new WebSocket("wss://localhost:9999/ws");
+        socket.onmessage = function (event) {
+            console.log(event);
+            var ta = document.getElementById('responseText');
+            ta.value = ta.value + '\n' + event.data
+        };
+        socket.onopen = function (event) {
+            var ta = document.getElementById('responseText');
+            ta.value = "连接开启!";
+        };
+        socket.onclose = function (event) {
+            var ta = document.getElementById('responseText');
+            ta.value = ta.value + "连接被关闭";
+        };
+    } else {
+        alert("你的浏览器不支持 WebSocket！");
+    }
+
+    function send(message) {
+        if (!window.WebSocket) {
+            return;
+        }
+        if (socket.readyState == WebSocket.OPEN) {
+            socket.send(message);
+        } else {
+            alert("连接没有开启.");
+        }
+    }
+</script>
+<form onsubmit="return false;">
+    <h3>WebSocket聊天室：</h3>
+    <div>
+        <textarea id="responseText" style="width: 500px; height: 300px;"></textarea>
+    </div>
+    <div>
+        <input type="text" name="message" style="width: 430px" value="我是Netty">
+        <input type="button" value="发送消息" onclick="send(this.form.message.value)">
+    </div>
+</form>
+
+</body>
+</html>
